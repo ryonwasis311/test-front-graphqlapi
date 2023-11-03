@@ -28,7 +28,6 @@ const McModal: FC<McModalProps> = ({
   onCloseModal,
 }) => {
   let [isOpen, setIsOpen] = useState(!!isOpenProp);
-  const dispatch = useDispatch();
   const { connected, disconnect } = useWallet();
 
   function closeModal() {
@@ -50,7 +49,6 @@ const McModal: FC<McModalProps> = ({
   }, [isOpenProp]);
 
   function onLogout() {
-    dispatch(logOut());
     if (connected) {
       disconnect();
     }
@@ -139,10 +137,10 @@ const McModal: FC<McModalProps> = ({
                         }}
                       />
                       <p className="text-white xl:text-[19px] sm:text-[16px] text-[13px] font-semibold font-Inter tracking-[1px] ml-2">
-                        {user?.nickname}
+                        {""}
                       </p>
                       <p className="text-[#A1A1A1] xl:text-[19px] sm:text-[16px] text-[13px] font-semibold font-Inter tracking-[1px] ml-2">
-                        @{user?.name}
+                        @{""}
                       </p>
                     </div>
                   </Dialog.Title>

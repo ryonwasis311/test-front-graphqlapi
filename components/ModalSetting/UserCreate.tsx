@@ -7,7 +7,6 @@ import ButtonFile from "../../shared/Button/ButtonFile";
 import { imgSrc, truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, updateAvatar } from "../../store/user";
 import { Spin } from "antd";
 import { ThreeDots } from "react-loader-spinner";
 import { toastNotification } from "../ToastNTF";
@@ -23,7 +22,6 @@ const UserCreate: FC<ModalSettingProps> = ({
   show,
   onCloseModalSetting,
 }) => {
-  const curUser = useSelector(selectUser);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [newImage, setNewImage] = useState<File>();
@@ -38,7 +36,6 @@ const UserCreate: FC<ModalSettingProps> = ({
   const [coverLetter, setCoverLetter] = useState("");
   const [isCoverLetter, setIsCoverLetter] = useState(false)
   const [name, setName] = useState("");
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const onChangeBio = () => {
@@ -76,30 +73,7 @@ const UserCreate: FC<ModalSettingProps> = ({
   };
 
   const handlesubmit = () => {
-    const submit = async (user) => {
-      return await userService.addUser(user);
-    };
-
-    let user = {
-      username: name,
-      email: email,
-      password: password,
-    };
-
-    submit(user)
-    .then((data: any) => {
-      if (data.message === "User was Created successfully!") {
-        toastNotification("User was Created suceessfully!", "success", 5000);
-        setName("");
-        setEmail("");
-        setPassword("")
-        dispatch(addUserGroup(user))
-        onCloseModalSetting()
-      }
-    })
-  .catch(() => {
-    toastNotification("Created failed", "error", 5000);
-  });
+    
   }
 
 const renderContent = () => {

@@ -13,14 +13,12 @@ export const ButtonGroupUsers = () => {
     router.push("/users")
   }
   const router = useRouter()
-  const dispatch =useDispatch();
   const [activeBtn, setActiveBtn] = useState<string>("Posts");
   const [isdisabled, SetIsdisabled] = useState<boolean>(false);
   const handleDashboard = () =>{
     router.push("/dashboard")
   }
   const handleLogOut = () =>{
-    dispatch(logOut)
     router.push("/auth/signup");
   }
   return (

@@ -5,11 +5,8 @@ import NcModal from "../../shared/NcModal/NcModal";
 import Image from "next/image";
 import ButtonFile from "../../shared/Button/ButtonFile";
 import { useMediaQuery } from "react-responsive";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser, updateUser } from "../../store/user";
 import { ThreeDots } from "react-loader-spinner";
 import { toastNotification } from "../ToastNTF";
-import { userService } from "../../services";
 
 export interface ModalSettingProps {
   show: boolean;
@@ -21,10 +18,9 @@ const ModalSetting: FC<ModalSettingProps> = ({
   onCloseModalSetting,
 }) => {
   const textareaRef = useRef(null);
-  const curUser = useSelector(selectUser);
-  const [password, setPassword] = useState(curUser.user.password);
-  const [email, setEmail] = useState(curUser.user.email);
-  const [name, setName] = useState(curUser.user.username);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [isPass, setIsPass] = useState(true);
   const [isEmailEdit, setisEmailEdit] = useState(false);
   const [isNameEdit, setNameEdit] = useState(false);
@@ -32,7 +28,6 @@ const ModalSetting: FC<ModalSettingProps> = ({
   const [isSelectImage, setIsSelectImage] = useState(false);
   const [imageFile, setImageFile] = useState<File>();
   const isDesktop = useMediaQuery({ query: "(min-width: 1650px)" });
-  const [editImage, setEditImage] = useState(curUser.user.avatar);
   const hasNumber = /\d/;
   const [isUpdating, setIsUpdating] = useState(false);
   const [invalidName, setInvalidName, invalidNameRef] = useState(false);
@@ -40,7 +35,6 @@ const ModalSetting: FC<ModalSettingProps> = ({
   const [invalidPass, setInvalidPass, invalidPassRef] = useState(false);
   const [coverLetter, setCoverLetter] = useState("");
   const [isCoverLetter, setIsCoverLetter] = useState(false)
-  const dispatch = useDispatch();
   const onChangeBio = () => {
     setIsCoverLetter(!isCoverLetter);
   }
@@ -59,28 +53,7 @@ const ModalSetting: FC<ModalSettingProps> = ({
   };
 
   const handleUpdate =()=>{
-    const submit = async (payload) =>{
-      return await userService.updateUser(payload)
-    }
-    const userId = curUser.user._id;
-    const newUser ={
-      username: name,
-      email:email,
-      password: password,
-    }
-    const payload ={
-      userId,
-      newUser,
-    }
-    submit(payload)
-    .then ((data:any) =>{
-      if(data.message ==="User updated successfully!")
-      {
-        toastNotification("User was updated successfully!", "success", 5000);
-        dispatch(updateUser(payload.newUser))
-        onCloseModalSetting()
-      }
-    })
+    
 
   }
 

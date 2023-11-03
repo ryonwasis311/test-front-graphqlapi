@@ -48,30 +48,7 @@ const RepostCreate: FC<ModalCreateProps> = ({
   };
 
   const onSubmit = async () => {
-    if (text === "") {
-      setErrText(true);
-      return;
-    }
-    setIsUpdating(true);
-    const formdata = new FormData();
-    formdata.append("name", curUser.user.name);
-    formdata.append("description", text);
-    if (imageFile) {
-      formdata.append("file", imageFile);
-    }
-    formdata.append("repostfile", repostImage)
-    const data: any = await postService.create(formdata);
-    if (data.message === "success") {
-      data.post.followers = 0;
-      dispatch(addPosts(data.post));
-      setPageNum(1);
-      toastNotification("Post creation success", "success", 5000);
-      setIsUpdating(false);
-      onCloseModalSetting();
-    } else {
-      setIsUpdating(false);
-      toastNotification("Post creation failed", "error", 5000);
-    }
+   
     setText("");
     setImageFile(null);
     setImageName("");

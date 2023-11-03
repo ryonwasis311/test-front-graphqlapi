@@ -28,7 +28,6 @@ const NcModal: FC<NcModalProps> = ({
   onCloseModal,
 }) => {
   let [isOpen, setIsOpen] = useState(!!isOpenProp);
-  const dispatch = useDispatch();
   const { connected, disconnect } = useWallet();
 
   function closeModal() {
@@ -50,7 +49,6 @@ const NcModal: FC<NcModalProps> = ({
   }, [isOpenProp]);
 
   function onLogout() {
-    dispatch(logOut());
     if (connected) {
       disconnect();
     }

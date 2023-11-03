@@ -6,9 +6,6 @@ import Image from "next/image";
 import ButtonFile from "../../shared/Button/ButtonFile";
 import { imgSrc, truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser, updateAvatar } from "../../store/user";
-import { Spin } from "antd";
 import { ThreeDots } from "react-loader-spinner";
 import { toastNotification } from "../ToastNTF";
 import { userService } from "../../services";
@@ -43,7 +40,6 @@ const UserUdate: FC<ModalSettingProps> = ({
   const [invalidPass, setInvalidPass, invalidPassRef] = useState(false);
   const [coverLetter, setCoverLetter] = useState("");
   const [isCoverLetter, setIsCoverLetter ] =useState(false)
-  const dispatch = useDispatch();
   const onChangeBio = () =>{
     setIsCoverLetter(!isCoverLetter);
   }
@@ -61,35 +57,7 @@ const UserUdate: FC<ModalSettingProps> = ({
   };
 
   const onhandleUpdate =() =>{
-    const submit = async (payload) =>{
-      return await userService.updateUser(payload)
-    }
-
-    const userId =user._id;
-    const newUser ={
-      username:name,
-      email:email,
-      password:password,
-      id:user._id,
-    }
-    const payload ={
-      userId,
-      newUser,
-    }
-
-    submit(payload)
-      .then ((data:any) =>{
-        if(data.message ==="User updated successfully!")
-        {
-          toastNotification("User was Updated successfully!", "success",5000);
-          dispatch(updateUser(payload))
-          onCloseModalSetting()
-        }
-
-      })
-      .catch(() =>{
-        toastNotification("Updated failed", "error", 5000)
-      })
+   
   }
 
 

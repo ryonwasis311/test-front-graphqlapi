@@ -6,28 +6,29 @@ import useState from "react-usestateref";
 import { Card } from "../../components/Card";
 import { ButtonGroup } from "../../contents/Post/ButtonGroup";
 import { useEffect } from "react";
-import { userService } from "../../services";
-import { selectUserGroup } from "../../store/userGroup";
-import { updateUserGroup } from "../../store/userGroup";
+
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_ALL_USERS } from "../../GraphQLQperation/queries";
+import { toastNotification } from "../../components/ToastNTF";
+
 const PostPage = () => {
   const [items, setItems] = useState([]);
 
-  const dispatch = useDispatch();
-  const userGroup = useSelector(selectUserGroup);
   const [allUsers, setAllUsers] = useState<any>([]);
+
+  const { data, loading, error } = useQuery(GET_ALL_USERS, {
+    onCompleted: (getAll) => {
+    },
+    onError: () => {
+      toastNotification("GetAllUsers failed!", "error", 3000);
+    },
+  });
+  
   useEffect(() => {
-    const getAllUsers = async () => {
-      const userData: any = await userService.getAll();
-      dispatch(updateUserGroup(userData))
 
-    }
-    getAllUsers();
+  })
 
-  }, []);
 
-  useEffect(() => {
-    setAllUsers(userGroup);
-  }, [userGroup]);
 
   const fetchMoreData = () => {
     setTimeout(() => {
@@ -59,7 +60,7 @@ const PostPage = () => {
                   next={fetchMoreData}
                   hasMore={true}
 
-                  loader={<div>loading...</div>}
+                  loader={<div className="flex justify-center text-white">No data exists...</div>}
                 >
                   {allUsers?.map((eachUser: any, index: any) => {
                     return (

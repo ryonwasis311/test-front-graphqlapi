@@ -13,7 +13,6 @@ export const ButtonGroup = () => {
     setIsSetting(true);
   }
   const router = useRouter()
-  const dispatch =useDispatch();
   const [activeBtn, setActiveBtn] = useState<string>("Posts");
   const [isdisabled, SetIsdisabled] = useState<boolean>(false);
   const handleDashboard = () =>{

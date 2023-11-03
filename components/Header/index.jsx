@@ -3,10 +3,7 @@ import Image from "next/image";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
 import ModalSetting from "../ModalSetting/ModalSetting";
 import { useEffect, useState } from "react";
-import { imgSrc, truncate } from "../../utils";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../store/user";
+import { imgSrc } from "../../utils";
 import MobileMenu from "./mobilemenu";
 
 const Header = () => {
@@ -14,16 +11,9 @@ const Header = () => {
   const router = useRouter();
   const openModalSetting = () => setIsSetting(true);
   const closeModalSetting = () => setIsSetting(false);
-  const user = useSelector(selectUser);
 
-  useEffect(() => {
-    console.log("user in header: ", user);
-    console.log("user avatr in imgSrc: ", imgSrc(user.user.avatar));
-  }, [user]);
-  function connectAccount() {
-    window.solana.connect();
-    window.solana.request({ method: "connect" });
-  }
+
+  
 
   return (
     <>
@@ -32,7 +22,7 @@ const Header = () => {
         <div className="relative flex">
           <Image
             alt="avatar"
-            src={imgSrc(user.user.avatar)}
+            src="/static/images/user/post_member1.png"
             unoptimized
             className="object-cover 2xl:w-[55px] sm:w-[50px] w-[35px] 2xl:h-[55px] sm:h-[50px] h-[35px] rounded-full"
             width={55}
@@ -51,7 +41,7 @@ const Header = () => {
             onCloseModalSetting={closeModalSetting}
           />
           <p className="items-center self-center ml-1 text-white text-[16px] font-Inter">
-            @{user.user.username}
+            @{""}
           </p>
         </div>
         {/* earth_image */}

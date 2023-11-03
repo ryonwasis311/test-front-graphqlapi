@@ -69,7 +69,7 @@ const SignUpPage = () => {
   const [signupUser, { data, loading, error }] = useMutation(SIGNUP_USER, {
     onCompleted(signUP) {
       toastNotification("SignUp Successfully!", "success", 5000);
-      localStorage.setItem(AUTH_TOKEN, signUP);
+      localStorage.setItem(AUTH_TOKEN, signUP.token);
       router.push("/users")
     },
     onError() {

@@ -38,7 +38,7 @@ const LoginPage = () => {
     (SIGNIN_USER, {
       onCompleted(signIn) {
         toastNotification("SignIn successfully!", "success", 5000);
-        localStorage.setItem(AUTH_TOKEN, signIn);
+        localStorage.setItem(AUTH_TOKEN, signIn.token);
         router.push("/users");
       },
       onError() {
