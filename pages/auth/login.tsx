@@ -12,6 +12,10 @@ import { logIn, updateAvatar, updateEmail, updateName, updateId, updatePassword 
 import { truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 
+import { SIGNIN_USER } from "../../GraphQLQperation/mutation";
+import { useMutation } from "@apollo/client";
+import { AUTH_TOKEN } from "../../constant";
+
 const LoginPage = () => {
   const [invalidForm, setInvalidForm, invalidFormRef] = useState(true);
   const [name, setName] = useState("");
@@ -21,10 +25,26 @@ const LoginPage = () => {
   const [invalidName, setInvalidName, invalidNameRef] = useState(false);
   const [invalidPass, setInvalidPass, invalidPassRef] = useState(false);
   const [isClickSubmit, SetClickSubmit] = useState(false);
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
   const isDesktop = useMediaQuery({ query: "(min-width: 1650px)" });
-  const dispatch = useDispatch();
   const router = useRouter();
   const hasNumber = /\d/;
+
+  const [signinUser, { data, loading, error }] = useMutation
+    (SIGNIN_USER, {
+      onCompleted(signIn) {
+        toastNotification("SignIn successfully!", "success", 5000);
+        localStorage.setItem(AUTH_TOKEN, signIn);
+        router.push("/users");
+      },
+      onError() {
+        toastNotification("SignIn failed", "error", 5000);
+      }
+    })
 
   useEffect(() => {
 
@@ -51,31 +71,13 @@ const LoginPage = () => {
 
 
   const handleSubmit = () => {
-    const submit = async (user) => {
-      return await authService.login(user);
-    };
-
-    let user = {
-      username: name,
-      email: email,
-      password: password,
-    };
-
-    submit(user)
-      .then((data: any) => {
-        if (data.msg === "login sucess") {
-          toastNotification("User was Login suceessfully!", "success", 5000);
-          dispatch(logIn(data.token));
-          dispatch(updateName(data.username));
-          dispatch(updatePassword(data.password));
-          dispatch(updateId(data.id));
-          dispatch(updateEmail(data.email));
-          router.push("/users");
-        }
-      })
-      .catch(() => {
-        toastNotification("LogIn failed", "error", 5000);
-      });
+    signinUser({
+      variables: {
+        name: formState.name,
+        email: formState.email,
+        password: formState.password,
+      }
+    })
   };
 
 
@@ -147,8 +149,11 @@ const LoginPage = () => {
               <input
                 type="text"
                 placeholder="USERNAME"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                onChange={(e) => setFormState({
+                  ...formState,
+                  name: e.target.value
+                })}
+                value={formState.name}
                 required
                 autoComplete="off"
                 className="absolute top-0 left-0 w-full h-full rounded-[20px] bg-transparent text-textwhite xl:pl-[55px] lg:pl-[50px] pl-[45px] pr-[30px] z-10 placeholder:text-placehd1 outline-none"
@@ -182,8 +187,11 @@ const LoginPage = () => {
               <input
                 type="text"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                onChange={(e) => setFormState({
+                  ...formState,
+                  email: e.target.value
+                })}
+                value={formState.email}
                 required
                 autoComplete="off"
                 className="absolute top-0 left-0 w-full h-full rounded-[20px] bg-transparent text-textwhite xl:pl-[55px] lg:pl-[50px] pl-[45px] pr-[30px] z-10 placeholder:text-placehd1 outline-none"
@@ -217,8 +225,11 @@ const LoginPage = () => {
               <input
                 type="password"
                 placeholder="PASSWORD"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                onChange={(e) => setFormState({
+                  ...formState,
+                  password: e.target.value
+                })}
+                value={formState.password}
                 required
                 autoComplete="off"
                 className="absolute top-0 left-0 w-full h-full rounded-[20px] bg-transparent text-textwhite xl:pl-[55px] lg:pl-[50px] pl-[45px] pr-[30px] z-10 placeholder:text-placehd1 outline-none"
