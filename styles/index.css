@@ -1,0 +1,60 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "custom.css";
+/* @import "examples.module.scss"; */
+/* Your own custom component styles */
+
+@layer base {
+  input::placeholder {
+    @apply 2xl:text-[14px] lg:text-[12px] text-[11px]; /* Change the text size to your desired value */
+  }
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Pixel"), url(../public/static/font/Inter.ttf) format("truetype");
+}
+
+.Toastify__toast-container--top-center {
+  top: 45%;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+.Toastify__toast-container {
+  width: 270px;
+}
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background: rgba(100, 90, 90, 0.5);
+}
+.toast-wrapper-back {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper-back-title {
+  color: rgb(201, 180, 63);
+  font-size: 20px;
+  font-weight: 700;
+}
+.wrapper-back-amount {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+}
+@media screen and (max-width: 680px) {
+  .Toastify__toast-container {
+    width: 200px;
+  }
+  .wrapper-back-title {
+    font-size: 16px;
+  }
+  .wrapper-back-amount {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}

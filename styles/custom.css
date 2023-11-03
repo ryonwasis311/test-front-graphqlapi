@@ -1,0 +1,105 @@
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
+@media screen and (min-width: 1400px) {
+  .post-carousel {
+    height: 720px !important;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+  .post-carousel {
+    height: 600px !important;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1200px) {
+  .post-carousel {
+    height: 430px !important;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+}
+.post-carousel {
+  overflow: hidden;
+  overflow-y: scroll;
+  position: relative;
+}
+.post-carousel::-webkit-scrollbar {
+  width: 0px;
+}
+.post-carousel::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.post-carousel::-webkit-scrollbar-thumb {
+  background-color: #404040;
+}
+.post-carousel::-webkit-scrollbar-thumb {
+  background-color: #404040;
+  border-radius: 20px;
+}
+.post-carousel::-webkit-scrollbar-thumb {
+  background-color: #404040;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+.post-carousel::-webkit-scrollbar-thumb:hover {
+  background-color: #555555;
+}
+
+.preserve-line-breaks {
+  white-space: pre-line;
+}
+
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-default:not(
+    :disabled
+  ):hover {
+  color: #f1f1f1;
+  border-color: #ffffffad;
+}
+
+.comment-carousel::-webkit-scrollbar {
+  width: 0px;
+}
+.comment-carousel::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.comment-carousel::-webkit-scrollbar-thumb {
+  background-color: #404040;
+}
+.comment-carousel::-webkit-scrollbar-thumb {
+  background-color: #404040;
+  border-radius: 20px;
+}
+.comment-carousel::-webkit-scrollbar-thumb {
+  background-color: #404040;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+.comment-carousel::-webkit-scrollbar-thumb:hover {
+  background-color: #555555;
+}
+
+.button-effect {
+  /* padding: 10px 20px; */
+  background-color: #eaeaea;
+  border-color: #c28deb;
+  border-radius: 5px;
+  transition: box-shadow 0.3s;
+}
+
+.button-effect:hover {
+  background-color: #d6a3ff33;
+  box-shadow: 0 0 5px 1px #cca6e8;
+  border-color: #caa1e9;
+}
