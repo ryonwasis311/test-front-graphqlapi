@@ -78,7 +78,6 @@ const UserCreate: FC<ModalSettingProps> = ({
       refetchQueries: [GET_ALL_USERS, "Users" ]
     });
     router.push("/");
-
   }
 
 const renderContent = () => {

@@ -18,7 +18,7 @@ export enum EUserStatus {
 export type UserStatusStrings = keyof typeof EUserStatus;
 
 export interface IUser {
-  _id?: string;
+  id?: string;
   name: string;
   email?: string;
   password?: string;

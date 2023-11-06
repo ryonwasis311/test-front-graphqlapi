@@ -3,14 +3,17 @@ import UserUpdate from "../ModalSetting/UserUpdate";
 import { useState } from "react";
 import { IUser } from "../../types";
 import { toastNotification } from "../ToastNTF";
-
+import { useMutation } from "@apollo/client";
+import { DELETE_USER } from "../../GraphQLQperation/mutation";
+import { GET_ALL_USERS } from "../../GraphQLQperation/queries";
+import { Router, useRouter } from "next/router";
 export interface CardProps {
   index : any,
   user : IUser,
 }
 
 export const Card = (props:CardProps) => {
-  
+  const router = useRouter()
   const { user } = props;
   const [isSetting , setIsSetting] = useState<boolean>(false);
   const [ isVisiuable, setVisiuable] =useState(true)
@@ -21,6 +24,25 @@ export const Card = (props:CardProps) => {
     setIsSetting(true);
   }
   
+  const [ deleteUser, { data, loading , error} ] = useMutation
+  (DELETE_USER, {
+    onCompleted(){
+      toastNotification("Deleted User Successfully! " , "success", 4000);
+    },
+    onError()
+      {
+      toastNotification("Deleted Failed !" ,"error", 4000);
+      }  })
+
+  const handleDelete = () =>{
+    deleteUser({
+      variables:{
+        deleteUserId  :user.id,
+      },
+      refetchQueries: [GET_ALL_USERS, "Users"]
+    });
+    router.push("/")
+  }
   return (
     <>
         {/* user information */}
@@ -55,7 +77,7 @@ export const Card = (props:CardProps) => {
                 className={`lg:rounded-[13px] rounded-[15px] border-[2px] border-solid border-[#FFF] 2xl:w-[77px] lg:w-[70px] sm:w-[70px] w-[50px] 2xl:h-[40px] lg:h-[40px] sm:h-[40px] h-[30px]  items-center flex lg:justify-center sm:justify-around button-effect px-2
                 bg-[#272727] opacity-100
                  `}
-                //  onClick={}
+                 onClick={handleDelete}
               >
                 <p
                   className={`lg:text-[10px] 2xl:text-[10px] sm:text-[6px] text-[8px] lg:tracking-[0.5px] sm:tracking-[3px]   font-semibold font-Inter  text-whitetext-opacity-100  `}
