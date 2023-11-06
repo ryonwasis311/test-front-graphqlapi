@@ -19,7 +19,7 @@ export type UserStatusStrings = keyof typeof EUserStatus;
 
 export interface IUser {
   _id?: string;
-  username: string;
+  name: string;
   email?: string;
   password?: string;
   avatar?: string;

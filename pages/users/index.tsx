@@ -17,18 +17,14 @@ const PostPage = () => {
   const [allUsers, setAllUsers] = useState<any>([]);
 
   const { data, loading, error } = useQuery(GET_ALL_USERS, {
-    onCompleted: (getAll) => {
+    onCompleted: (data) => {
+      setAllUsers(data.users)
     },
     onError: () => {
       toastNotification("GetAllUsers failed!", "error", 3000);
     },
   });
   
-  useEffect(() => {
-
-  })
-
-
 
   const fetchMoreData = () => {
     setTimeout(() => {

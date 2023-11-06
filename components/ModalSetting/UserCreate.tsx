@@ -13,6 +13,10 @@ import { toastNotification } from "../ToastNTF";
 import { userService } from "../../services";
 import { useRouter } from "next/router";
 import { addUserGroup } from "../../store/userGroup";
+
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../../GraphQLQperation/mutation";
+import { GET_ALL_USERS } from "../../GraphQLQperation/queries";
 export interface ModalSettingProps {
   show: boolean;
   onCloseModalSetting: () => void;
@@ -50,30 +54,31 @@ const UserCreate: FC<ModalSettingProps> = ({
     }
   };
 
+  const [createUser, { data, loading, error }] = useMutation
+    (CREATE_USER, {
+      onCompleted(create) {
+        toastNotification("Created User successfully!", "success", 5000);
+
+      },
+      onError() {
+        toastNotification("Create failed", "error", 5000);
+      }
+    })
   const onChangePic = async () => {
     setIsSelectImage(false);
-    // if (newImage) {
-    //   setIsUpdating(true);
-
-    //   const formdata = new FormData();
-    //   if (newImage) {
-    //     formdata.append("name", curUser.user.name);
-    //     formdata.append("avatar", newImage);
-    //   }
-    //   const data: any = await userService.changeAvatar(formdata);
-    //   if (data.msg === "success") {
-    //     toastNotification("Avatar Image edited", "success", 5000);
-    //     dispatch(updateAvatar(`${data.user.avatar}`));
-    //     setEditImage(`${data.user.avatar}`);
-    //   } else {
-    //     toastNotification("Avatar Image error", "error", 5000);
-    //   }
-    //   setIsUpdating(false);
-    // }
   };
 
-  const handlesubmit = () => {
-    
+  const handleSubmit = () => {
+    createUser({
+      variables: {
+        name:name,
+        email:email,
+        password:password,
+      },
+      refetchQueries: [GET_ALL_USERS, "Users" ]
+    });
+    router.push("/");
+
   }
 
 const renderContent = () => {
@@ -230,7 +235,7 @@ const renderContent = () => {
             sizeClass="2xl:w-[174px] sm:w-[160px] w-[70px] 2xl:h-[58px] h-[44px]"
             fontSize="font-Inter font-[600] 2xl:text-[14px] text-[10px]"
             className="rounded-[14px] w-full h-full mt-4"
-            onClick={handlesubmit}
+            onClick={handleSubmit}
           >
             Submit
           </ButtonPrimary>

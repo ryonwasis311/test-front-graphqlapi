@@ -8,6 +8,10 @@ import { addPosts } from "../../store/posts";
 import { selectUser } from "../../store/user";
 import { toastNotification } from "../ToastNTF";
 import { ThreeDots } from "react-loader-spinner";
+
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../../GraphQLQperation/mutation";
+
 export interface ModalCreateProps {
   placeholdertext:string;
   imagename:string;
@@ -15,6 +19,16 @@ export interface ModalCreateProps {
   onCloseModalSetting: () => void;
   setPageNum: (any) => void;
 }
+
+const [createUser, {data, loading, error}] = useMutation(CREATE_USER, {
+  onCompleted(createUser) {
+    toastNotification("User Created Successfully!", "success", 5000);
+
+  },
+  onError() {
+    toastNotification("Created failed.", "error", 5000);
+  }
+})
 
 const ModalCreate: FC<ModalCreateProps> = ({
   placeholdertext,
@@ -50,30 +64,7 @@ const ModalCreate: FC<ModalCreateProps> = ({
   };
 
   const onSubmit = async () => {
-    if (text === "") {
-      setErrText(true);
-      return;
-    }
-    setIsUpdating(true);
-    const formdata = new FormData();
-    formdata.append("name", curUser.user.name);
-    formdata.append("description", text);
-    if (imageFile) {
-      formdata.append("file", imageFile);
-    }
-    const data: any = await postService.create(formdata);
-    if (data.message === "success") {
-      data.post.followers = 0;
-      data.post.commentcnt = 0;
-      dispatch(addPosts(data.post));
-      setPageNum(1);
-      toastNotification("Post creation success", "success", 5000);
-      setIsUpdating(false);
-      onCloseModalSetting();
-    } else {
-      setIsUpdating(false);
-      toastNotification("Post creation failed", "error", 5000);
-    }
+   
     setText("");
     setImageFile(null);
     setImageName("");
