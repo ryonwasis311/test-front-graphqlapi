@@ -77,6 +77,10 @@ const UserCreate: FC<ModalSettingProps> = ({
       },
       refetchQueries: [GET_ALL_USERS, "Users" ]
     });
+    setName("");
+    setEmail("");
+    setPassword("");
+    onCloseModalSetting()
     router.push("/");
   }
 

@@ -8,9 +8,11 @@ import { imgSrc, truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 import { ThreeDots } from "react-loader-spinner";
 import { toastNotification } from "../ToastNTF";
-import { userService } from "../../services";
 import { IUser } from "../../types";
-import { updateUser } from "../../store/userGroup";
+import Router, { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+import { UPDATE_USER } from "../../GraphQLQperation/mutation";
+import { GET_ALL_USERS } from "../../GraphQLQperation/queries";
 
 export interface ModalSettingProps {
   show: boolean;
@@ -23,6 +25,7 @@ const UserUdate: FC<ModalSettingProps> = ({
   user,
   onCloseModalSetting,
 }) => {
+  const router = useRouter();
   const textareaRef = useRef(null);
   const [password, setPassword] = useState(user.password);
   const [email, setEmail] = useState(user.email);
@@ -56,8 +59,28 @@ const UserUdate: FC<ModalSettingProps> = ({
     setIsSelectImage(false);
   };
 
+  const [ updateUser , { data, loading, error }] = useMutation
+  (UPDATE_USER,{
+    onCompleted(){
+      toastNotification("Updated User Successfully!", "success", 5000)
+    },
+    onError(){
+      toastNotification("Updated Failed!", "error", 5000);
+    }
+  }
+
+  )
   const onhandleUpdate =() =>{
-   
+   updateUser({
+    variables :{
+      name:name,
+      email:email,
+      password:password,
+      updateUserId:user.id,
+    },
+    refetchQueries: [GET_ALL_USERS, "Users"],
+   }),
+   router.push("/")
   }
 
 

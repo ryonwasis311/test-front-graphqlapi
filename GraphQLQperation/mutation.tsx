@@ -31,3 +31,13 @@ export const DELETE_USER = gql`
   }
 }
 `
+
+export const UPDATE_USER = gql`
+ mutation UpdateUser($name: String!, $email: String!, $password: String!, $updateUserId: String!) {
+  updateUser(name: $name, email: $email, password: $password, id: $updateUserId) {
+    email,
+    id,
+    name,
+    password,    
+  }
+}`
