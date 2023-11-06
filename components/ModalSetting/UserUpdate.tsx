@@ -13,6 +13,7 @@ import Router, { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../../GraphQLQperation/mutation";
 import { GET_ALL_USERS } from "../../GraphQLQperation/queries";
+import { useQueries, useQuery } from "react-query";
 
 export interface ModalSettingProps {
   show: boolean;
@@ -42,7 +43,8 @@ const UserUdate: FC<ModalSettingProps> = ({
   const [invalidEmail, setInvalidEmail, invalidEmailRef] = useState(false);
   const [invalidPass, setInvalidPass, invalidPassRef] = useState(false);
   const [coverLetter, setCoverLetter] = useState("");
-  const [isCoverLetter, setIsCoverLetter ] =useState(false)
+  const [isCoverLetter, setIsCoverLetter ] =useState(false);
+
   const onChangeBio = () =>{
     setIsCoverLetter(!isCoverLetter);
   }
@@ -59,28 +61,32 @@ const UserUdate: FC<ModalSettingProps> = ({
     setIsSelectImage(false);
   };
 
+  
   const [ updateUser , { data, loading, error }] = useMutation
-  (UPDATE_USER,{
+  ( UPDATE_USER, {
+    refetchQueries: [{ query: GET_ALL_USERS }],
     onCompleted(){
-      toastNotification("Updated User Successfully!", "success", 5000)
+      toastNotification("Updated User Successfully!", "success", 5000);
     },
     onError(){
       toastNotification("Updated Failed!", "error", 5000);
-    }
+    },
   }
 
   )
-  const onhandleUpdate =() =>{
-   updateUser({
+  const onhandleUpdate =() => {
+   updateUser ({
     variables :{
-      name:name,
-      email:email,
-      password:password,
-      updateUserId:user.id,
+      name: name,
+      email: email,
+      password: password,
+      updateUserId: user.id,
     },
-    refetchQueries: [GET_ALL_USERS, "Users"],
-   }),
-   router.push("/")
+    refetchQueries: [GET_ALL_USERS, "Users" ]
+  })
+   onCloseModalSetting()
+   router.push("/");
+  
   }
 
 

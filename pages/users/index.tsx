@@ -13,18 +13,19 @@ import { toastNotification } from "../../components/ToastNTF";
 
 const PostPage = () => {
   const [items, setItems] = useState([]);
-
-  const [allUsers, setAllUsers] = useState<any>([]);
-
-  const { data, loading, error } = useQuery(GET_ALL_USERS, {
-    onCompleted: (data) => {
-      setAllUsers(data.users)
+  const { data, loading, error, refetch } = useQuery(GET_ALL_USERS, {
+    fetchPolicy: "no-cache",
+    onCompleted: () => {
+      refetch();
     },
-    onError: () => {
-      toastNotification("GetAllUsers failed!", "error", 3000);
+    onError: (error) => {
+      toastNotification(`GetAllUsers failed: ${error.message}`, "error", 3000);
     },
   });
-  
+
+  const allUsers = data?.users || [];
+
+  if (loading) return <p>Loading...</p>;
 
   const fetchMoreData = () => {
     setTimeout(() => {

@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from 'react-query-devtools'
 
 const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',

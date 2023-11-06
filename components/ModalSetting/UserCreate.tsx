@@ -56,9 +56,8 @@ const UserCreate: FC<ModalSettingProps> = ({
 
   const [createUser, { data, loading, error }] = useMutation
     (CREATE_USER, {
-      onCompleted(create) {
+      onCompleted() {
         toastNotification("Created User successfully!", "success", 5000);
-
       },
       onError() {
         toastNotification("Create failed", "error", 5000);
@@ -81,7 +80,7 @@ const UserCreate: FC<ModalSettingProps> = ({
     setEmail("");
     setPassword("");
     onCloseModalSetting()
-    router.push("/");
+    router.push("/users");
   }
 
 const renderContent = () => {
